@@ -1,0 +1,229 @@
+\documentclass[12pt]{article}
+
+% Language setting
+\usepackage[english]{babel}
+
+% Set page size and margins
+
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+% Useful packages
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{listings}
+\lstset {
+language=C++,
+backgroundcolor=\color{yellow!20},
+commentstyle=\color{green},
+%keywordstyle=\color{blue},
+basicstyle=\footnotesize
+}
+
+\usepackage{xcolor}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    filecolor=black,
+    urlcolor=black,
+    citecolor=black}
+
+\usepackage{graphicx}
+\graphicspath{{images/}}
+
+\title{Compulsory 1}
+\author{Rebekka Oskarsen}
+\date{31. Januar 2024}
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Introduction}
+In this document I am doing task 1, which I need to have a function and the derivative of that function and definition quantity. Have a text file that shoes the data points and a window that shows the graph of the function.
+In task 2 I need to make spiral and have a text file with data points.
+Task 3 I need to choose a function with two variables and choose a area in the xy plane, make text file with xyz linearly.
+
+\section{Task 1}
+\subsection{Information gathering}
+\begin{enumerate}
+  \item Find a function:\[ f(x)=cos^2(x)+sin^3(x) \]
+  \begin{figure}[htp]
+\centering
+\includegraphics[width=0.50\linewidth]{Screenshot 2024-01-30 110157.png}
+\caption{\label{fig:Graph}This is the GeoGebra graph that shows how my function looks like in a graph.}
+\end{figure}
+
+Choose a definition quantity: \[ Df = [-1, 1] \]
+
+    \item Intervals: \[ h = \Delta x = \frac{b-a}{n} \] 
+Using this one that I had to rearrange:
+\[n= \frac{h}{b-a}\]
+Because this formula will help to find number of intervals n given a,b, and desired resolution h.
+\end{enumerate}
+  \newpage
+  \subsection{C++ code}
+ function and the derivative of \( f(x)=cos^2(x)+sin^3(x) \)
+\begin{figure}[htp]
+\centering
+\includegraphics[width=0.50\linewidth]{Screenshot 2024-01-30 102611.png}
+\caption{\label{fig:c++code} }
+\end{figure}
+
+\begin{lstlisting}[language=C++, caption={Function and Derivative}]
+float function(float x) 
+{
+    return pow(cos(x), 2) + pow(sin(x), 3);
+}
+
+float calculateDerivative(float x, float h) 
+{
+    return (function(x + h) - function(x)) / h;
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language=C++, caption={draws the graph}]
+glDrawArrays(GL_LINE_STRIP, 0, vertices.size() / 3);
+\end{lstlisting}
+This line of code is in the render loop, it is used to draw the graph using the line strip.
+
+\begin{figure}[htp]
+\centering
+\includegraphics[width=0.5\linewidth]{Screenshot 2024-01-30 182926.png}
+\caption{\label{fig:c++ Graph}  }
+\end{figure}
+\begin{lstlisting}[language=C++, caption={Positiv green, negativ red}]
+const char* vertexShaderSource = 
+	"#version 330 core\n"
+	"layout (location = 0) in vec3 aPos;\n"
+	"out vec4 color;\n"
+	"void main() {\n"
+	"   gl_Position = vec4(aPos.x, aPos.y, 0.0f, 1.0f);\n"
+	"   color = vec4(aPos.z > 0.0f ? 0.0f : 1.0f, 
+            aPos.z > 0.0f ? 1.0f : 0.0f, 0.0f, 1.0f);\n"
+	"}\0";
+\end{lstlisting}
+It also sets the color based on the sign of the z coordinate (aPos.z). If aPos.z is positive, the color is set to green, if not positive then sets to red.
+
+What i actually wanted to show in the window, what i wanted to render is this:
+\begin{figure}[htp]
+\centering
+\includegraphics[width=0.5\linewidth]{Screenshot 2024-01-31 055416.png}
+\caption{\label{fig:GeoGebra Graph} GeoGebra }
+\end{figure}
+
+\subsection{Text file}
+\begin{figure}[htp]
+\centering
+\includegraphics[width=0.5\linewidth]{Screenshot 2024-01-31 051320.png}
+\caption{\label{fig:c++ data-points.txt} }
+\end{figure}
+
+
+
+\newpage
+\section{Task 2}
+\begin{lstlisting}[language=C++, caption={draws the spiral}]
+glDrawArrays(GL_LINE_STRIP, 0, numPoints);
+\end{lstlisting}
+This line of code that is in the loop, renders the spiral.
+
+\begin{figure}[htp]
+\centering
+\includegraphics[width=0.5\linewidth]{Screenshot 2024-01-30 223300.png}
+\caption{\label{fig:Spiral}  }
+\end{figure}
+As you can see i didn't get a spiral. I got a half of a circle or the issue is that i am not rendering in 3D so am not seeing it in a right angle.
+
+\newpage
+\subsection{Text file}
+\begin{figure}[htp]
+\centering
+\includegraphics[width=0.4\linewidth]{Screenshot 2024-01-31 062003.png}
+\caption{\label{fig:Spiral_data}  }
+\end{figure}
+
+\newpage
+\section{Task 3}
+I choose as my function with two variables:\( f(x)=cos^2(x)+sin^3(x) \)
+
+\begin{lstlisting}[language=C++, caption={Function with two variables}]
+//function to calculate the function f(x,y) = x*y^2
+float f(float x, float y) 
+{
+    return x * y * y;
+}
+\end{lstlisting}
+
+\begin{figure}[htp]
+\centering
+\includegraphics[width=0.4\linewidth]{Screenshot 2024-01-30 223600.png}
+\caption{\label{fig:text file}  }
+\end{figure}
+
+\begin{lstlisting}[language=C++, caption={Text file}]
+//function to create a xyz file with the function f(x,y) = x*y^2
+void createXYZFile(const char* filename, int resolution) 
+{
+    ofstream file(filename);
+
+    if (!file.is_open()) 
+    {
+        cerr << "Unable to open file: " << filename << endl;
+        return;
+    }
+
+   //define the area of the function
+    float minX = -5.0f;
+    float maxX = 5.0f;
+    float minY = -5.0f;
+    float maxY = 5.0f;
+
+    //define the stepsize
+    float stepX = (maxX - minX) / resolution;
+    float stepY = (maxY - minY) / resolution;
+
+    int numLines = 0;
+
+   //loop through the area and calculate the function f(x,y) = x*y^2
+    for (float x = minX; x <= maxX; x += stepX) 
+    {
+        for (float y = minY; y <= maxY; y += stepY) 
+        {
+            float z = f(x, y);
+            file << x << " " << y << " " << z << endl;
+            numLines++;
+        }
+    }
+
+    file.close();
+
+   
+    ifstream readFile(filename);
+    string fileContents;
+    fileContents += to_string(numLines) + "\n";
+    fileContents += string((istreambuf_iterator<char>(readFile)), 
+    istreambuf_iterator<char>());
+    readFile.close();
+
+    ofstream writeFile(filename);
+    writeFile << fileContents;
+    writeFile.close();
+}
+\end{lstlisting}
+
+\section{Discussion}
+I am not that happy about my result but that is because I lack knowledge. Task 1 is the one that I am most happy about because I manage to have the color green when the graph is positive and red when its negative. I am not happy about that I couldn't make show more of the graph.
+In task 2 I didn't get a spiral I only got the text file and a half a circle with color.
+Task 3 I didn't get the graph of the function i choose, just the text file.
+
+What I have learned is different ways to put color on. 
+
+\section{GitHub Link}
+\url{https://github.com/RebekkaOskarsen/Compulsory1_fall24.git}
+
+\section{Resources}
+ChatGPT, \url{https://chat.openai.com/}
+
+\end{document}

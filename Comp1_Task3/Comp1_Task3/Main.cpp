@@ -8,7 +8,8 @@
 using namespace std;   
 
 //function to calculate the function f(x,y) = x*y^2
-float f(float x, float y) {
+float f(float x, float y) 
+{
     return x * y * y;
 }
 

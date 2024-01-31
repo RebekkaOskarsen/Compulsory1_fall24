@@ -92,7 +92,7 @@ int main()
 		return -1;
 	}
 
-	vector<float> vertices = generateVertices(-1.0f * acos(-1.0), 2.0f * acos(-1.0), 0.2f); // generate vertices for the graph
+	vector<float> vertices = generateVertices(-1.0f * acos(-1.0), 1.0f * acos(-1.0), 0.2f); // generate vertices for the graph
 	const char* filename = "data-points.txt";
 	writeDataToFile(filename, vertices);
 
@@ -178,6 +178,7 @@ int main()
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
+	
 
 	//render loop
 	//-----------
@@ -219,7 +220,8 @@ void processInput(GLFWwindow* window)
 {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) // Check if the escape key is pressed
 		glfwSetWindowShouldClose(window, true); // Close the window
-	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) 
+	{
 		cout << "A is pressed" << endl;
 	}
 }

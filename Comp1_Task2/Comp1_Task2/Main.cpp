@@ -2,6 +2,9 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include <cmath>
+#include <fstream>
+
+using namespace std;
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
@@ -34,8 +37,42 @@ const char* fragmentShaderSource = R"(
     }
 )";
 
+void generateSpiralData(const char* filename)
+{
+    ofstream outputFile(filename);
+
+    if (!outputFile.is_open())
+    {
+        cerr << "Error opening output file" << endl;
+        exit(EXIT_FAILURE);
+    }
+
+    const float spiralRadius = 0.5f;
+    const float spiralHeight = 2.0f;
+    const int numPoints = 50;
+    const float step = 2 * acos(-1.0) / numPoints;
+
+    for (int i = 0; i < numPoints; ++i)
+    {
+        float t = i * step;
+        float x = spiralRadius * cos(t);
+        float y = spiralRadius * sin(t);
+        float z = (spiralHeight / (2 * acos(-1.0))) * t;
+
+        outputFile << x << " " << y << " " << z << endl;
+    }
+
+    outputFile.close();
+
+}
+
 int main()
 {
+    const char* spiralDataFile = "spiral_data.txt";
+
+    // Generate spiral data
+    generateSpiralData(spiralDataFile);
+
     // GLFW: initialize and configure
     // ------------------------------
     glfwInit();
@@ -48,7 +85,7 @@ int main()
     GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Spiral Window", NULL, NULL);
     if (window == NULL)
     {
-        std::cout << "Failed to create GLFW window" << std::endl;
+        cout << "Failed to create GLFW window" << endl;
         glfwTerminate();
         return -1;
     }
@@ -59,7 +96,7 @@ int main()
     // ---------------------------------------
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
-        std::cout << "Failed to initialize GLAD" << std::endl;
+        cout << "Failed to initialize GLAD" << endl;
         return -1;
     }
 
@@ -156,6 +193,7 @@ int main()
     // Cleanup
     // -------
     glDeleteVertexArrays(1, &VAO);
+
     glDeleteBuffers(1, &VBO);
     glDeleteProgram(shaderProgram);
 
